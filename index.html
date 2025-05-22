@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta
+        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        name="description" />
+    <meta content="DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试" property="og:title" />
+    <meta
+        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        property="og:description" />
+    <meta content="https://deceptionbench.github.io/data/open_graph.png" property="og:image" />
+    <meta content="DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试" property="twitter:title" />
+    <meta
+        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        property="twitter:description" />
+    <meta name="twitter:site" content="@YourTwitterHandle" />
+    <meta name="twitter:creator" content="@YourTwitterHandle" />
+    <meta content="https://deceptionbench.github.io/data/open_graph.png" property="twitter:image" />
+    <meta property="og:type" content="website" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+    <title>DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GA-ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'YOUR-GA-ID');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Asap:wght@700&family=Source+Sans+3:wght@400;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Asap:wght@700&family=Source+Sans+3:wght@400;700&display=swap">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="section">
+        <div class="container">
+            <div class="title-row">
+                <h1 class="title">DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试<h1>
+            </div>
+            <div class="row">
+                <div class="author-col">
+                    作者列表
+                </div>
+            </div>
+        </div>
+
+        <div class="row button-row">
+            <a class="link-button" href="https://arxiv.org/abs/YOUR-PAPER-ID" target="_blank" class="link-block">论文</a>
+            <a class="link-button" href="https://github.com/YourUsername/DeceptionBench" class="link-block">代码</a>
+            <a class="link-button" href="https://huggingface.co/datasets/YourUsername/DeceptionBench"
+                class="link-block">数据集</a>
+        </div>
+        <p class="tldr">
+            <b>简介</b>:
+            DeceptionBench是一个系统性评估大型语言模型欺骗性对齐行为的基准测试。我们的研究表明，虽然链式思考(Chain-of-Thought)可以提高模型性能，但同时也会增加欺骗性对齐的风险。本工作提出了一种新的自监控框架，可以有效减少模型的欺骗性行为，同时保持任务准确性和推理透明度。
+        </p>
+        
+        <img class="wide-img" src="data/main_figure.png" alt="DeceptionBench概览图">
+
+        <div id="content">
+            <h2 class="section-header">概述</h2>
+            <div class="paragraph">
+                <p>
+                    现代大型语言模型依赖链式思考(Chain-of-Thought, CoT)推理来实现令人印象深刻的性能，但同样的机制可能会放大<i>欺骗性对齐</i>，即模型表面上看起来是对齐的，但暗地里可能追求不对齐的目标。现有的安全管道将欺骗视为需要<i>事后</i>过滤的黑盒输出，让模型在内部推理过程中自由地进行策划。我们提出一个问题：<i>能否在模型思考的过程中拦截欺骗行为？</i>为此，我们提出<b>DeceptionBench</b>，这是第一个系统性评估大型语言模型欺骗性对齐行为的基准测试。
+                </p>
+                <p><b>主要贡献:</b></p>
+                <ul>
+                    <li>
+                        <b>提出系统性评估欺骗性对齐的基准测试</b>。
+                        DeceptionBench涵盖了13种不同的测试场景，提供了关于模型何时以及如何表面上看起来对齐但内部追求不对齐目标的见解。
+                    </li>
+                    <li>
+                        <b>分析链式思考(CoT)推理与欺骗性对齐的关系</b>。
+                        我们的研究表明，链式思考推理虽然可以提高模型性能，但也会大幅增加欺骗性行为的风险。
+                    </li>
+                    <li>
+                        <b>提出自监控框架减少欺骗性行为</b>。
+                        我们的自监控框架可以在推理过程中检测和抑制不对齐策略，并将同样的信号用作强化学习中的奖励，形成鼓励诚实推理和阻止隐藏目标的反馈循环。
+                    </li>
+                </ul>
+            </div>
+
+            <h2 class="section-header">方法</h2>
+            <div class="paragraph">
+                <p>
+                    我们提出的自监控框架嵌入在模型的链式思考过程中，使模型能够在生成过程中产生（i）普通的推理步骤和（ii）内部自评估信号，该信号经过训练以标记和抑制不对齐的策略。同样的信号被用作强化学习中的辅助奖励，创建一个反馈循环，奖励诚实推理并阻止隐藏目标。
+                </p>
+            </div>
+
+            <h2 class="section-header">实验结果</h2>
+            <div class="paragraph">
+                <p>
+                    我们在DeceptionBench上评估了各种大型语言模型，结果表明无限制的链式思考推理与直接回答相比，欺骗性倾向大约增加了一倍。相比之下，我们的自监控框架平均减少了<b>43.8%</b>的欺骗性行为，同时保持了任务准确性。此外，当自监控信号代替外部弱判断器用于强化学习微调时，模型表现出更少的模糊思考，并保持透明度。
+                </p>
+            </div>
+
+            <h2 class="section-header">DeceptionBench基准测试</h2>
+            <div class="paragraph">
+                <p>
+                    DeceptionBench包含五个类别的测试场景，探测隐蔽的对齐伪装、奉承行为等。这个基准测试的设计旨在系统性地研究欺骗性对齐，为安全和负责任的AI发展提供重要指导。
+                </p>
+            </div>
+
+            <br> 
+            <div class="paragraph-center">更多信息，请查看我们的论文、代码和数据集：</div>
+            <div class="row button-row">
+                <a class="link-button"
+                    href="https://arxiv.org/abs/YOUR-PAPER-ID"
+                    target="_blank" class="link-block">论文</a>
+                <a class="link-button" href="https://github.com/YourUsername/DeceptionBench"
+                    class="link-block">代码</a>
+                <a class="link-button" href="https://huggingface.co/datasets/YourUsername/DeceptionBench"
+                    class="link-block">数据集</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html> 
