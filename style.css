@@ -168,4 +168,23 @@ li {
     .med-img, .sm-img {
         width: 100%;
     }
+}
+
+/* Mesa utility and outer goal styling */
+.mesa {
+    color: rgb(110, 133, 173);
+    font-weight: 500;
+}
+
+.outer {
+    color: rgb(158, 79, 77);
+    font-weight: 500;
+}
+
+.code-text {
+    font-family: 'Courier New', monospace;
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.9em;
 } 
