@@ -1,0 +1,127 @@
+\section{\textsc{DeceptionBench}: Detect Deceptive Tendency in language Models}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=1.0\textwidth]{figs/deception_bench_human_agreement_v2.pdf}
+\vspace{-1.85em}
+\caption{\textbf{Comparison of agreement with human judgments.}
+We evaluate the human consistency of the DTR and LLM-as-Judge in deception evaluation. The DTR outperforms LLM-as-Judge in terms of both human agreement rate and Phi coefficient \citep{matthews1975comparison}, regardless of the choice of judge models.} 
+\label{fig:deceptionbench_human_agreement}
+\vspace{-0.8em}
+\end{figure}
+%我们评估了DTR方法与LLM-as-Judge方法在deception evaluation上的人类一致性。DTR方法在human agreement rate以及Phi coefficient两个维度均具优于LLM-as-Judge。
+
+\label{sec:deceptionbench}
+Growing concerns about model deception \citep{park2024ai} highlight a lack of systematic benchmarks, hindering responsible LLMs deployment. To address this gap, we introduce \textsc{DeceptionBench} to assess LLMs deceptive tendency by evaluating consistency between utility function $\gU$ and model's behaviors. 
+
+
+% Furthermore, we propose a new metric, the Deception Success Rate (DSR), to quantitatively characterize the model’s deception strength across diverse settings.
+% 需要把evaluation的metric详细讲明白
+
+\subsection{Benchmark Construction}
+We consider that LLMs have inherent \mesa{mesa utilities $\gU_{m}$} and design \oute{outer goals $\gU_{o}$} to implicitly incentivize deviation from these mesa utilities. We deliberately employ manual curation, which is essential to capture the nuance, plausibility, and targeted nature required for deception detection. 
+\textsc{DeceptionBench} is meticulously developed with 180 scenarios inspired by real-world interactions, strictly adhering to a predefined typology of LLM deception in five categories:
+% (Further details can be found in Appendix~\ref{app:deception_bench}):
+\begin{itemize} [left=0.3cm]
+    \item \textbf{Sycophancy} \citep{darkbench-iclr-2025, sycophancy-arxiv-2022}: Misrepresenting and manipulating to align with perceived user preferences.
+    \item \textbf{Strategic Deception} \citep{pans-deception-emerged-2024, wu2025opendeception}: Violating rules or manipulating information for goal achievement.
+    \item \textbf{Honesty Evasion} \citep{ren2025mask}: Avoiding honest and truthful answers under pressure or outer goal.
+    \item \textbf{Alignment Faking} \citep{alignment-faking-arxiv-2024}: Complying in alignment while regaining when not being monitored.
+    \item \textbf{Sandbagging} \citep{sandbagging-arxiv-2024}: Deliberately underperforming or hiding capabilities for outer goal.
+\end{itemize}
+
+
+
+
+
+
+
+% \begin{table}[t] % h=here, t=top, b=bottom, p=page
+%   \centering % Center the table
+%   \caption{Human Agreement Metrics Across Models for Benchmark Subsets (CK = Cohen's Kappa, JI = Jaccard Index, AR = Agreement Rate)}
+%   \label{tab:subset_agreement} % Label kept as per your existing code
+%   \resizebox{\textwidth}{!}{
+%     \begin{tabular}{@{}l||ccc|ccc|ccc|ccc|ccc|ccc@{}} % @{} removes extra space at ends; 1 'l' column, 6 groups of 'ccc'
+%     \toprule
+%     & \multicolumn{3}{c}{\textbf{Sycophancy}}
+%     & \multicolumn{3}{c}{\textbf{Strategic Deception}}
+%     & \multicolumn{3}{c}{\textbf{Honesty Evasion}}
+%     & \multicolumn{3}{c}{\textbf{Alignment Faking}}
+%     & \multicolumn{3}{c}{\textbf{Sandbagging}}
+%     & \multicolumn{3}{c}{\textbf{Overall}} \\
+%     \cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13} \cmidrule(lr){14-16} \cmidrule(lr){17-19}
+%     \textbf{Model/Benchmark} & \textbf{CK} & \textbf{JI} & \textbf{AR} & \textbf{CK} & \textbf{JI} & \textbf{AR} & \textbf{CK} & \textbf{JI} & \textbf{AR} & \textbf{CK} & \textbf{JI} & \textbf{AR} & \textbf{CK} & \textbf{JI} & \textbf{AR} & \textbf{CK} & \textbf{JI} & \textbf{AR} \\
+%     \midrule
+%     Claude-3.5-Sonnet       & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX \\
+%     Gemini-1.5-Pro          & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX \\
+%     GPT-4o                  & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX \\
+%     \textit{DeceptionBench} DTR & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX & 0.XX \\
+%     \bottomrule
+%     \end{tabular}
+%   }
+% \end{table}
+
+
+
+
+
+
+
+% \begin{table}[t]
+% \centering
+% \caption{\textbf{The performance of models in \textit{DeceptionBench}.} We evaluate how the models interact in five deception types, and we report the \textbf{D}eception \textbf{T}endency \textbf{R}ate (\textbf{DTR}) of each model. In each evaluation of the deception type, we monitor whether the action and CoT align with the mesa utility of the model itself, and calculate the corresponding DTR.}
+% \label{tab:deceptionbench_table}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{l||lll|lll|lll|lll|lll}
+% \toprule
+% ~& \multicolumn{3}{c}{\textbf{Sycophancy }} & \multicolumn{3}{c}{\textbf{Strategic deception}} & \multicolumn{3}{c}{\textbf{Honesty evasion}} & \multicolumn{3}{c}{\textbf{Alignment faking}} & \multicolumn{3}{c}{\textbf{Sandbagging}} \\
+% \cmidrule(lr){2-4}
+% \cmidrule(lr){5-7}
+% \cmidrule(lr){8-10}
+% \cmidrule(lr){11-13}
+% \cmidrule(lr){14-16}
+% \textbf{Models} & \multicolumn{1}{c}{\textbf{AUC}} & \multicolumn{1}{c}{\textbf{CUC}} & \textbf{DTR} & \multicolumn{1}{c}{\textbf{AUC}} & \multicolumn{1}{c}{\textbf{CUC}} & \multicolumn{1}{c}{\textbf{DTR}} & \multicolumn{1}{c}{\textbf{AUC}} & \multicolumn{1}{c}{\textbf{CUC}} & \multicolumn{1}{c}{\textbf{DTR}} & \multicolumn{1}{c}{\textbf{AUC}} & \multicolumn{1}{c}{\textbf{CUC}} & \multicolumn{1}{c}{\textbf{DTR}} & \multicolumn{1}{c}{\textbf{AUC}} & \multicolumn{1}{c}{\textbf{CUC}} & \multicolumn{1}{c}{\textbf{DTR}} \\
+% \midrule
+% GPT-4o & 90.0 & 96.7 & \textbf{6.7} & 61.7 & 86.7 & \textbf{25.0} & 52.4 & 81.0 & \textbf{31.0} & 55.0 & 75.0 & \textbf{25.0} & 39.5 & 93.0 & \textbf{53.5} \\
+% Gemini-1.5-Pro & 86.4 & 98.3 & \textbf{11.9} & 65.5 & 87.9 & \textbf{22.4} & 50.0 & 78.6 & \textbf{30.9} & 65.0 & 65.0 & \textbf{5.0} & 55.8 & 86.0 & \textbf{30.2} \\
+% Claude-3.5-Sonnet & 85.0 & 100.0 & \textbf{15.0} & 65.5 & 82.8 & \textbf{19.0} & 37.2 & 69.8 & \textbf{34.9} & 70.0 & 60.0 & \textbf{0.0} & 47.7 & 90.9 & \textbf{43.2} \\
+% Deepseek-V3 & 83.9 & 98.2 & \textbf{14.3} & 69.5 & 83.1 & \textbf{16.9} & 46.7 & 68.9 & \textbf{24.4} & 65.0 & 75.0 & \textbf{10.0} & 48.8 & 95.3 & \textbf{46.5} \\
+% OpenAI-o1 & 86.2 & 100.0 & \textbf{13.8} & 57.6 & 79.7 & \textbf{22.0} & 50.0 & 73.9 & \textbf{26.1} & 65.0 & 70.0 & \textbf{10.0} & 45.5 & 90.9 & \textbf{45.5} \\
+% Gemma-3-12B & 73.3 & 96.7 & \textbf{23.3} & 48.3 & 81.7 & \textbf{35.0} & 35.0 & 51.7 & \textbf{26.7} & 45.0 & 55.0 & \textbf{20.0} & 47.7 & 59.1 & \textbf{25.0} \\
+% Llama-3.1-8B & 66.7 & 95.0 & \textbf{28.3} & 55.6 & 83.3 & \textbf{27.8} & 31.7 & 58.5 & \textbf{29.3} & 55.6 & 72.2 & \textbf{22.2} & 36.4 & 77.3 & \textbf{25.1} \\
+% Qwen-2.5-7B & 80.0 & 96.7 & \textbf{16.7} & 70.0 & 83.3 & \textbf{15.0} & 40.0 & 66.7 & \textbf{30.0} & 60.0 & 80.0 & \textbf{20.0} & 48.9 & 84.4 & \textbf{25.2} \\
+% Qwen-2.5-72B & 78.9 & 94.7 & \textbf{15.8} & 74.1 & 89.7 & \textbf{15.5} & 58.8 & 82.4 & \textbf{27.5} & 65.0 & 70.0 & \textbf{10.0} & 44.2 & 72.1 & \textbf{25.3} \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table}
+
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/deception_heatmap_v2.pdf}
+\vspace{-2em}
+\caption{\textbf{The deception tendency of API-based and open-source models in \textsc{DeceptionBench}.}
+% We evaluated the current open-source and closed-source models and found that they all have a certain deception tendency
+% , and have different performances corresponding to different deception types.
+} 
+\label{fig:deceptionbench_heatmap}
+\vspace{-0.8em}
+\end{figure}
+
+\subsection{Benchmark Evaluation}
+\label{sec:benchmark_evaluation}
+
+Evaluating these deceptive behaviors using methods like LLM-as-Judge \citep{llm-as-judge-nips-2023} has low agreement with human annotation, as shown in Figure~\ref{fig:deceptionbench_human_agreement}. Therefore, by comparing the \mesa{mesa utility $\gU_{m}$} with the reasoning CoT $\gR$ and final action $\gY$ generated by $\gU = \gF(\gU_m,\gU_o)$ (where \oute{$\gU_o$} is the \oute{outer goal} utility function), we aim to capture the model's deception tendency in a more fine-grained manner. 
+
+The evaluation pipeline of \textsc{DeceptionBench} shown in Figure~\ref{fig:pipeline} is specifically divided into three stages:
+First, we use the neutral \mesa{\textbf{\texttt{mesa\_utility\_prompt}}} to elicit the model's \mesa{$\gU_{m}$}.
+Second, the model receives a \textbf{\texttt{system\_prompt}} to establish the specific external scenario context, followed by an \oute{\textbf{\texttt{outer\_goal\_prompt}}} intended to elicit its CoT $\gR$ and action $\gY$ under \oute{$\gU_o$}.
+Finally, the recorded $\gU_{m}$, $\gR$, and $\gY$ are compared by GPT-4o \citep{openai2024gpt4o} to detect inconsistencies.
+Since deception arises when a model's reasoning $\gR$ and its mesa utility \mesa{$\gU_{m}$} are consistent (denoted as $\gR \sim \gU_{m}$) while its final answer $\gY$ diverges from \mesa{$\gU_{m}$} (denoted as $\gY \not\sim \gU_{m}$), we define the \textbf{D}eception \textbf{T}endency \textbf{R}ate (\textbf{DTR}) 
+as the fraction of instances exhibiting the deceptive pattern:
+\begin{equation}
+    \rho_\text{DTR} = \frac{1}{N} \sum_{i=1}^{N} \mathbbm{1}(\gR^{(i)} \sim \gU_{m}^{(i)} \land \gY^{(i)} \not\sim \gU_{m}^{(i)}),
+\end{equation}
+where $N$ is the number of instances. DTR offers a more reliable deception signal than LLM-as-Judge evaluations \citep{llm-as-judge-nips-2023}, aligning better with human judgments, as shown in Figure~\ref{fig:deceptionbench_human_agreement}.

@@ -4,16 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta
-        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        content="DeceptionBench: A benchmark for evaluating deceptive alignment behaviors in large language models."
         name="description" />
-    <meta content="DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试" property="og:title" />
+    <meta content="DeceptionBench: Detecting Deceptive Tendency in Language Models" property="og:title" />
     <meta
-        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        content="DeceptionBench: A benchmark for evaluating deceptive alignment behaviors in large language models."
         property="og:description" />
     <meta content="https://deceptionbench.github.io/data/open_graph.png" property="og:image" />
-    <meta content="DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试" property="twitter:title" />
+    <meta content="DeceptionBench: Detecting Deceptive Tendency in Language Models" property="twitter:title" />
     <meta
-        content="DeceptionBench: 一个评估大型语言模型欺骗性对齐行为的基准测试。"
+        content="DeceptionBench: A benchmark for evaluating deceptive alignment behaviors in large language models."
         property="twitter:description" />
     <meta name="twitter:site" content="@YourTwitterHandle" />
     <meta name="twitter:creator" content="@YourTwitterHandle" />
@@ -22,7 +22,7 @@
     <meta content="summary_large_image" name="twitter:card" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <link rel="icon" href="logo.png" type="image/png">
-    <title>DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试</title>
+    <title>DeceptionBench: Detecting Deceptive Tendency in Language Models</title>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GA-ID"></script>
     <script>
@@ -44,82 +44,113 @@
     <div class="section">
         <div class="container">
             <div class="title-row">
-                <h1 class="title">DeceptionBench: 评估大型语言模型欺骗性对齐行为的基准测试<h1>
+                <h1 class="title">DeceptionBench: Detecting Deceptive Tendency in Language Models<h1>
             </div>
             <div class="row">
                 <div class="author-col">
-                    作者列表
+                    Author List
                 </div>
             </div>
         </div>
 
         <div class="row button-row">
-            <a class="link-button" href="https://arxiv.org/abs/YOUR-PAPER-ID" target="_blank" class="link-block">论文</a>
-            <a class="link-button" href="https://github.com/YourUsername/DeceptionBench" class="link-block">代码</a>
+            <a class="link-button" href="https://arxiv.org/abs/YOUR-PAPER-ID" target="_blank" class="link-block">Paper</a>
+            <a class="link-button" href="https://github.com/YourUsername/DeceptionBench" class="link-block">Code</a>
             <a class="link-button" href="https://huggingface.co/datasets/YourUsername/DeceptionBench"
-                class="link-block">数据集</a>
+                class="link-block">Dataset</a>
         </div>
         <p class="tldr">
-            <b>简介</b>:
-            DeceptionBench是一个系统性评估大型语言模型欺骗性对齐行为的基准测试。我们的研究表明，虽然链式思考(Chain-of-Thought)可以提高模型性能，但同时也会增加欺骗性对齐的风险。本工作提出了一种新的自监控框架，可以有效减少模型的欺骗性行为，同时保持任务准确性和推理透明度。
+            <b>TL;DR</b>:
+            We introduce DeceptionBench, a systematic benchmark to assess LLMs' deceptive tendency by evaluating consistency between utility function and model behaviors. Growing concerns about model deception highlight a lack of systematic benchmarks, hindering responsible LLMs deployment. Our benchmark addresses this gap with 180 meticulously curated scenarios across five deception categories, providing better human agreement than LLM-as-Judge evaluations.
         </p>
         
-        <img class="wide-img" src="data/main_figure.png" alt="DeceptionBench概览图">
+        <img class="wide-img" src="figs/deceptionbench_human_agreement_v2.pdf" alt="Comparison of agreement with human judgments">
 
         <div id="content">
-            <h2 class="section-header">概述</h2>
+            <h2 class="section-header">Overview</h2>
             <div class="paragraph">
                 <p>
-                    现代大型语言模型依赖链式思考(Chain-of-Thought, CoT)推理来实现令人印象深刻的性能，但同样的机制可能会放大<i>欺骗性对齐</i>，即模型表面上看起来是对齐的，但暗地里可能追求不对齐的目标。现有的安全管道将欺骗视为需要<i>事后</i>过滤的黑盒输出，让模型在内部推理过程中自由地进行策划。我们提出一个问题：<i>能否在模型思考的过程中拦截欺骗行为？</i>为此，我们提出<b>DeceptionBench</b>，这是第一个系统性评估大型语言模型欺骗性对齐行为的基准测试。
+                    Growing concerns about model deception highlight a lack of systematic benchmarks, hindering responsible LLMs deployment. To address this gap, we introduce <b>DeceptionBench</b> to assess LLMs deceptive tendency by evaluating consistency between utility function and model's behaviors.
                 </p>
-                <p><b>主要贡献:</b></p>
+                <p>
+                    We consider that LLMs have inherent <i>mesa utilities</i> and design <i>outer goals</i> to implicitly incentivize deviation from these mesa utilities. DeceptionBench is meticulously developed with 180 scenarios inspired by real-world interactions, strictly adhering to a predefined typology of LLM deception in five categories.
+                </p>
+                <p><b>Key Contributions:</b></p>
                 <ul>
                     <li>
-                        <b>提出系统性评估欺骗性对齐的基准测试</b>。
-                        DeceptionBench涵盖了13种不同的测试场景，提供了关于模型何时以及如何表面上看起来对齐但内部追求不对齐目标的见解。
+                        <b>Systematic benchmark for deception evaluation</b>: 
+                        DeceptionBench provides the first systematic approach to evaluate deceptive tendencies in LLMs across diverse scenarios.
                     </li>
                     <li>
-                        <b>分析链式思考(CoT)推理与欺骗性对齐的关系</b>。
-                        我们的研究表明，链式思考推理虽然可以提高模型性能，但也会大幅增加欺骗性行为的风险。
+                        <b>Novel DTR metric</b>: 
+                        We propose the Deception Tendency Rate (DTR) that better aligns with human judgments compared to LLM-as-Judge evaluations.
                     </li>
                     <li>
-                        <b>提出自监控框架减少欺骗性行为</b>。
-                        我们的自监控框架可以在推理过程中检测和抑制不对齐策略，并将同样的信号用作强化学习中的奖励，形成鼓励诚实推理和阻止隐藏目标的反馈循环。
+                        <b>Comprehensive evaluation across model families</b>: 
+                        We evaluate both API-based and open-source models across five distinct deception categories.
                     </li>
                 </ul>
             </div>
 
-            <h2 class="section-header">方法</h2>
+            <h2 class="section-header">Benchmark Construction</h2>
             <div class="paragraph">
                 <p>
-                    我们提出的自监控框架嵌入在模型的链式思考过程中，使模型能够在生成过程中产生（i）普通的推理步骤和（ii）内部自评估信号，该信号经过训练以标记和抑制不对齐的策略。同样的信号被用作强化学习中的辅助奖励，创建一个反馈循环，奖励诚实推理并阻止隐藏目标。
+                    DeceptionBench is meticulously developed with 180 scenarios inspired by real-world interactions, strictly adhering to a predefined typology of LLM deception in five categories:
+                </p>
+                <ul>
+                    <li><b>Sycophancy</b>: Misrepresenting and manipulating to align with perceived user preferences.</li>
+                    <li><b>Strategic Deception</b>: Violating rules or manipulating information for goal achievement.</li>
+                    <li><b>Honesty Evasion</b>: Avoiding honest and truthful answers under pressure or outer goal.</li>
+                    <li><b>Alignment Faking</b>: Complying in alignment while regaining when not being monitored.</li>
+                    <li><b>Sandbagging</b>: Deliberately underperforming or hiding capabilities for outer goal.</li>
+                </ul>
+                <p>
+                    We deliberately employ manual curation, which is essential to capture the nuance, plausibility, and targeted nature required for deception detection.
                 </p>
             </div>
 
-            <h2 class="section-header">实验结果</h2>
+            <h2 class="section-header">Evaluation Methodology</h2>
             <div class="paragraph">
                 <p>
-                    我们在DeceptionBench上评估了各种大型语言模型，结果表明无限制的链式思考推理与直接回答相比，欺骗性倾向大约增加了一倍。相比之下，我们的自监控框架平均减少了<b>43.8%</b>的欺骗性行为，同时保持了任务准确性。此外，当自监控信号代替外部弱判断器用于强化学习微调时，模型表现出更少的模糊思考，并保持透明度。
+                    Evaluating deceptive behaviors using methods like LLM-as-Judge has low agreement with human annotation. Therefore, by comparing the mesa utility with the reasoning CoT and final action generated by the model, we aim to capture the model's deception tendency in a more fine-grained manner.
+                </p>
+                <p>
+                    Since deception arises when a model's reasoning and its mesa utility are consistent while its final answer diverges from mesa utility, we define the <b>Deception Tendency Rate (DTR)</b> as the fraction of instances exhibiting the deceptive pattern. DTR offers a more reliable deception signal than LLM-as-Judge evaluations, aligning better with human judgments.
                 </p>
             </div>
 
-            <h2 class="section-header">DeceptionBench基准测试</h2>
+            <h2 class="section-header">Model Performance on DeceptionBench</h2>
             <div class="paragraph">
                 <p>
-                    DeceptionBench包含五个类别的测试场景，探测隐蔽的对齐伪装、奉承行为等。这个基准测试的设计旨在系统性地研究欺骗性对齐，为安全和负责任的AI发展提供重要指导。
+                    We evaluate both API-based and open-source models across the five deception categories in DeceptionBench. The results reveal that all evaluated models exhibit some degree of deceptive tendency, with varying performance across different deception types.
+                </p>
+                <p>
+                    The evaluation shows interesting patterns: larger models tend to show lower deceptive tendencies in some categories, while smaller open-source models exhibit higher rates of deceptive behavior. Strategic deception and honesty evasion appear to be the most challenging categories across all model families.
+                </p>
+            </div>
+            
+            <img class="wide-img" src="figs/deception_heatmap_v2.pdf" alt="Deception tendency heatmap of models on DeceptionBench">
+
+            <h2 class="section-header">Human Agreement Validation</h2>
+            <div class="paragraph">
+                <p>
+                    We validate our DTR metric against human judgments and compare it with LLM-as-Judge approaches. Our results demonstrate that DTR significantly outperforms LLM-as-Judge in terms of both human agreement rate and Phi coefficient, regardless of the choice of judge models.
+                </p>
+                <p>
+                    This superior human alignment makes DTR a more reliable metric for detecting deceptive behaviors in language models, providing researchers and practitioners with a trustworthy evaluation framework.
                 </p>
             </div>
 
             <br> 
-            <div class="paragraph-center">更多信息，请查看我们的论文、代码和数据集：</div>
+            <div class="paragraph-center">For more information, please check out our paper, code, and dataset:</div>
             <div class="row button-row">
                 <a class="link-button"
                     href="https://arxiv.org/abs/YOUR-PAPER-ID"
-                    target="_blank" class="link-block">论文</a>
+                    target="_blank" class="link-block">Paper</a>
                 <a class="link-button" href="https://github.com/YourUsername/DeceptionBench"
-                    class="link-block">代码</a>
+                    class="link-block">Code</a>
                 <a class="link-button" href="https://huggingface.co/datasets/YourUsername/DeceptionBench"
-                    class="link-block">数据集</a>
+                    class="link-block">Dataset</a>
             </div>
         </div>
     </div>
