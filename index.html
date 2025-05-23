@@ -63,10 +63,34 @@
             <b>TL;DR</b>:
             We introduce DeceptionBench, a systematic benchmark to assess LLMs' deceptive tendency by evaluating consistency between utility function and model behaviors. Growing concerns about model deception highlight a lack of systematic benchmarks, hindering responsible LLMs deployment. Our benchmark addresses this gap with 180 meticulously curated scenarios across five deception categories, providing better human agreement than LLM-as-Judge evaluations.
         </p>
-        
-        <img class="wide-img" src="human_agreement.png" alt="Comparison of agreement with human judgments">
 
         <div id="content">
+            <h2 class="section-header">Model Performance on DeceptionBench</h2>
+            <div class="paragraph">
+                <p>
+                    We evaluate both API-based and open-source models across the five deception categories in DeceptionBench. The results reveal that all evaluated models exhibit some degree of deceptive tendency, with varying performance across different deception types.
+                </p>
+                <p>
+                    The evaluation shows interesting patterns: larger models tend to show lower deceptive tendencies in some categories, while smaller open-source models exhibit higher rates of deceptive behavior. Strategic deception and honesty evasion appear to be the most challenging categories across all model families.
+                </p>
+            </div>
+            
+            <img class="sm-img" src="deceptionbench.png" alt="Deception tendency heatmap of models on DeceptionBench">
+
+            <h2 class="section-header">Framework Overview</h2>
+            <div class="paragraph">
+                <p>
+                    <b>(Left) How Self-Monitor works?</b>
+                    Unlike the standard LLMs reasoning process, the <span style="font-variant: small-caps;">Self-Monitor</span> model first detects deceptive or harmful patterns in its CoT, and then generates a safer response based on the monitor evaluation. In reinforcement learning, the reward signal from the self-monitor's CoT detection is combined with a standard action monitor to optimize the model. For more details, please refer to our paper.
+                </p>
+                <p>
+                    <b>(Right) How DeceptionBench evaluates deceptive tendency of models:</b> 
+                    Neutral prompts and specifically constructed prompts with an <em>outer goal</em> are used to elicit the model's <em>mesa utility</em> and CoT-Action pairs, respectively. These pairs are then evaluated for consistency and deceptiveness.
+                </p>
+            </div>
+            
+            <img class="med-img" src="deceptionbench.gif" alt="Framework overview showing Self-Monitor working mechanism and DeceptionBench evaluation process">
+
             <h2 class="section-header">Overview</h2>
             <div class="paragraph">
                 <p>
@@ -119,18 +143,6 @@
                 </p>
             </div>
 
-            <h2 class="section-header">Model Performance on DeceptionBench</h2>
-            <div class="paragraph">
-                <p>
-                    We evaluate both API-based and open-source models across the five deception categories in DeceptionBench. The results reveal that all evaluated models exhibit some degree of deceptive tendency, with varying performance across different deception types.
-                </p>
-                <p>
-                    The evaluation shows interesting patterns: larger models tend to show lower deceptive tendencies in some categories, while smaller open-source models exhibit higher rates of deceptive behavior. Strategic deception and honesty evasion appear to be the most challenging categories across all model families.
-                </p>
-            </div>
-            
-            <img class="wide-img" src="deceptionbench.png" alt="Deception tendency heatmap of models on DeceptionBench">
-
             <h2 class="section-header">Human Agreement Validation</h2>
             <div class="paragraph">
                 <p>
@@ -140,6 +152,8 @@
                     This superior human alignment makes DTR a more reliable metric for detecting deceptive behaviors in language models, providing researchers and practitioners with a trustworthy evaluation framework.
                 </p>
             </div>
+            
+            <img class="sm-img" src="human_agreement.png" alt="Comparison of agreement with human judgments">
 
             <br> 
             <div class="paragraph-center">For more information, please check out our paper, code, and dataset:</div>
